@@ -1,0 +1,4 @@
+imports_granularity = "Item"
+fn_args_layout = "Vertical"
+reorder_impl_items = true
+group_imports = "StdExternalCrate"
