@@ -1,2 +1,6 @@
 [workspace]
-members = ["cowboy-protocol", "cowboy-client"]
+members = ["cowboy-protocol", "cowboy-client", "cowboy-proc-macros"]
+resolver = "2"
+
+[workspace.dependencies]
+uuid = "1.4.1"
