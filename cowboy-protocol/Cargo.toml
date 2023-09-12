@@ -4,3 +4,5 @@ version = "0.0.0"
 edition = "2021"
 
 [dependencies]
+cowboy-proc-macros = { path = "../cowboy-proc-macros" }
+uuid = { workspace = true, features = ["v4"] }

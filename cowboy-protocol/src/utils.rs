@@ -8,6 +8,21 @@ macro_rules! cmd {
     };
 }
 
+#[macro_export]
+macro_rules! bounded {
+    ($value: expr, $max: expr) => {
+        bounded!($value, 0, $max)
+    };
+    ($value: expr, $min: expr, $max: expr) => {
+        if $value > $max {
+            return Err(FieldError::InvalidRange {
+                start: $min,
+                end: $max,
+            });
+        }
+    };
+}
+
 /// Write value to command.
 pub fn write_value(
     mut cmd: [u8; 9],
@@ -52,4 +67,32 @@ pub(super) fn packetize(cmd: &[u8; 9]) -> [u8; 11] {
         checksum[0],
         checksum[1],
     ]
+}
+
+#[cfg(test)]
+pub(crate) mod test {
+    #[macro_export]
+    macro_rules! chk {
+        ($cmd: expr) => {{
+            let b: [u8; 11] = $cmd.try_into().unwrap();
+            [b[9], b[10]]
+        }};
+    }
+
+    #[macro_export]
+    macro_rules! che {
+        ($cmd: expr) => {{
+            let a: Result<[u8; 11], _> = $cmd.try_into();
+            a.err().unwrap()
+        }};
+    }
+
+    #[macro_export]
+    macro_rules! assert_all {
+        ($cases: expr) => {
+            for (actual, expected) in $cases {
+                assert_eq!(actual, expected);
+            }
+        };
+    }
 }
